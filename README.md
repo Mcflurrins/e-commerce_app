@@ -74,6 +74,7 @@ urlpatterns = [ ...
     path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
     ...]
 ```
+This step concludes it for the site! The results can be seen in the next part, where I access the 4 views I made through Postman.
 
 ### Access the four URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
 ![image](https://github.com/user-attachments/assets/1943b6b4-6fb4-4ebd-a5c8-80ee2805bc12)
