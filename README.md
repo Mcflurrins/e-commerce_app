@@ -1,3 +1,15 @@
+---- WEEK 2 ----
+Explain why we need data delivery in implementing a platform.
+
+In your opinion, which is better, XML or JSON? Why is JSON more popular than XML?
+
+Explain the functional usage of is_valid() method in Django forms. Also explain why we need the method in forms.
+
+Why do we need csrf_token when creating a form in Django? What could happen if we did not use csrf_token on a Django form? How could this be leveraged by an attacker?
+
+Explain how you implemented the checklist above step-by-step (not just following the tutorial).
+
+---- WEEK 1 ----
 Explain how you implemented the checklist above step-by-step (not just following the tutorial).
 
 First, I made a repository on Github for this assignment. Then, I made a local directory on my computer for this project and connected it to the new github repo I just made through the 'git init' 
