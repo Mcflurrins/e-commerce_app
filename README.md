@@ -61,6 +61,19 @@ def show_json_by_id(request, id):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 ```
 #### Creating URL routings for the views
+Before I start adding more paths into urls.py, I first import the new functions I just made in views.py into this urls.py.
+```
+from main.views import show_main, create_product_entry, show_xml, show_json, show_xml_by_id, show_json_by_id
+```
+Only then do I add the paths into urlpatterns, illustrated as below: 
+```
+urlpatterns = [ ...
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<str:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
+    ...]
+```
 
 ### Access the four URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
 ![image](https://github.com/user-attachments/assets/1943b6b4-6fb4-4ebd-a5c8-80ee2805bc12)
