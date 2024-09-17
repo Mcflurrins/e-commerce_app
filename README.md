@@ -40,11 +40,33 @@ def create_product_entry(request):
     return render(request, "create_product_entry.html", context)
 ```
 urls.py should then also be modified to accommodate for the function we just created. I also made create_product_entry.html to display the form fields in the site.
-#### 4. Adding views XML, JSON, XML_by_id, JSON_by_id
+
+#### 4. Adding views
+For this step, I first add the HttpResponse and Serializer imports into views.py, which helps me make the 4 functions I need to add the views XML, JSON, XML_by_id, JSON_by_id, like below:
+```
+def show_xml(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_xml_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+```
+#### Creating URL routings for the views
 
 ### Access the four URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
 ![image](https://github.com/user-attachments/assets/1943b6b4-6fb4-4ebd-a5c8-80ee2805bc12)
-
+![image](https://github.com/user-attachments/assets/6698afa2-43be-485a-a8bc-d25702effece)
+![image](https://github.com/user-attachments/assets/341de937-910f-453b-901b-be4b6efb0374)
+![image](https://github.com/user-attachments/assets/63e6e4fb-bc8b-4393-abe2-dc0c5753d852)
 
 # WEEK 1
 ### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
