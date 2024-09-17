@@ -9,6 +9,8 @@ Why do we need csrf_token when creating a form in Django? What could happen if w
 
 Explain how you implemented the checklist above step-by-step (not just following the tutorial).
 
+Access the four URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
+
 ---- WEEK 1 ----
 Explain how you implemented the checklist above step-by-step (not just following the tutorial).
 
