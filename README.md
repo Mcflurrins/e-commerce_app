@@ -43,6 +43,8 @@ urls.py should then also be modified to accommodate for the function we just cre
 #### 4. Adding views XML, JSON, XML_by_id, JSON_by_id
 
 ### Access the four URLs in point 2 using Postman, take screenshots of the results in Postman, and add them to README.md.
+![image](https://github.com/user-attachments/assets/1943b6b4-6fb4-4ebd-a5c8-80ee2805bc12)
+
 
 # WEEK 1
 ### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
