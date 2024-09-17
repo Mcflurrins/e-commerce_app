@@ -1,60 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
+<h1>Upcycle Shop</h1>
+<h5>Application Name: </h5>
+<p>{{ app_name }}</p>
+<h5>Name: </h5>
+<p>{{ name }}</p>
+<h5>Class: </h5>
+<p>{{ class }}</p>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce App</title>
-    <style>
-        body {
-            font-family: Arial;
-            background-color: #f4f4f4;
-        }
+{% if not product_entries %}
+<p>There is no product data in Upcycle shop.</p>
+{% else %}
+<table>
+    <tr>
+    <th>Product Name</th>
+    <th>Description</th>
+    <th>Price</th>
+    </tr>
 
-        h1 {
-            text-align: center;
-            color: #262626;
-        }
+    {% comment %} This is how to display product data
+    {% endcomment %} 
+    {% for product_entry in product_entries %}
+    <tr>
+    <td>{{product_entry.name}}</td>
+    <td>{{product_entry.description}}</td>
+    <td>{{product_entry.price}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 
-        h5 {
-            margin-bottom: 5px;
-            font-size: 16px;
-            color: #262626;
-        }
+<br />
 
-        p {
-            font-size: 14px;
-            color: #262626;
-            margin: 5px 0 20px;
-        }
-
-        .container {
-            width: 80%;
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px  #bfbfbf;
-            border-radius: 8px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h1>Upcycle Shop</h1>
-        <h5>Application Name: </h5>
-        <p>{{ app_name }}</p>
-
-        <h5>Name: </h5>
-        <p>{{ name }}</p>
-
-        <h5>Class: </h5>
-        <p>{{ class }}</p>
-    </div>
-
-</body>
-</html>
+<a href="{% url 'main:create_product_entry' %}">
+    <button>Add New Product Entry</button>
+</a>
 {% endblock content %}
-
