@@ -3,6 +3,9 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
 
 # WEEK 2
 ### Explain why we need data delivery in implementing a platform.
+Data delivery is important for platform implementation because it ensures efficient communication between the platform's components and users. This allows for the website to make real-time updates and interactions. For large-scale platforms, reliable data delivery is needed to keep performance up under increased demand. It also ensures the secure transmission of data, protecting the platform from breaches, attackers and unauthorized access.
+
+#### In your opinion, which is better, XML or JSON? Why is JSON more popular than XML?
 JSON is better than XML because it’s easier to understand (readable) for me. JSON is popular because it uses less syntax, which data more compact and faster to parse. Unlike XML’s heavy use of tags, JSON is clean and straightforward, focusing on key-value pairs. This simplicity leads to better performance, especially in web APIs, where speed and efficiency are crucial. JSON’s object model aligns well with most programming languages, making it a natural choice for developers to handle structured data.
 
 ### Explain the functional usage of is_valid() method in Django forms. Also explain why we need the method in forms.
