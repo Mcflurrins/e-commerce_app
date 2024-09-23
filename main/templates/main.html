@@ -7,6 +7,7 @@
 <p>{{ name }}</p>
 <h5>Class: </h5>
 <p>{{ class }}</p>
+<h5>Last login session: {{ last_login }}</h5>
 
 {% if not product_entries %}
 <p>There is no product data in Upcycle shop.</p>
@@ -34,5 +35,8 @@
 
 <a href="{% url 'main:create_product_entry' %}">
     <button>Add New Product Entry</button>
+</a>
+<a href="{% url 'main:logout' %}">
+    <button>Logout</button>
 </a>
 {% endblock content %}
