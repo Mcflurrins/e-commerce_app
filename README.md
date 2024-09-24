@@ -4,7 +4,7 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   <summary>WEEK 3</summary>
   
   ### What is the difference between HttpResponseRedirect() and redirect()?
-  HttpResponseRedirect() only accepts a url, however redirect() will return a HttpResponseRedirect() that accepts a model, view or url.
+  HttpResponseRedirect() only accepts a url, however redirect() will return a HttpResponseRedirect() that accepts a model, view or url. redirect() is more convenient as it simplifies the redirection process, whereas HttpResponseRedirect() gives more control but requires manual URL handling.
 
   ### Explain how the MoodEntry model is linked with User!
   The MoodEntry model is connected to the User model in Django using a relationship so that each mood entry is related to a specific user. When a user submits a mood entry via the form, the logged-in user (request.user) is assigned to the user field of the MoodEntry before it is saved to the database. On the main page, only the mood entries belonging to the logged-in user are displayed by filtering the entries using MoodEntry.objects.filter(user=request.user). During migration, existing entries are assigned to a default user (the first user that we register).
