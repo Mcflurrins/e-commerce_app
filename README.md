@@ -1,7 +1,8 @@
 # PWS Deployment Site:
 http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/ 
 <details>
-<summary># WEEK 2</summary>
+<summary>WEEK 2</summary>
+  
 ### Explain why we need data delivery in implementing a platform.
 Data delivery is important for platform implementation because it ensures efficient communication between the platform's components and users. This allows for the website to make real-time updates and interactions. For large-scale platforms, reliable data delivery is needed to keep performance up under increased demand. It also ensures the secure transmission of data, protecting the platform from breaches, attackers and unauthorized access.
 
@@ -111,7 +112,9 @@ This step concludes it for the site! The results can be seen in the next part, w
 ![image](https://github.com/user-attachments/assets/63e6e4fb-bc8b-4393-abe2-dc0c5753d852)
 </details>
 <details>
-<summary># WEEK 1</summary>
+<summary> WEEK 1
+</summary>
+  
 ### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
 
 First, I made a repository on Github for this assignment. Then, I made a local directory on my computer for this project and connected it to the new github repo I just made through the 'git init' 
