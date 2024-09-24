@@ -1,9 +1,28 @@
 # PWS Deployment Site:
 http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/ 
 <details>
+  <summary>WEEK 3</summary>
+  
+  #### What is the difference between HttpResponseRedirect() and redirect()?
+  HttpResponseRedirect() only accepts a url, however redirect() will return a HttpResponseRedirect() that accepts a model, view or url.
+
+  #### Explain how the MoodEntry model is linked with User!
+  The MoodEntry model is connected to the User model in Django using a relationship so that each mood entry is related to a specific user. When a user submits a mood entry via the form, the logged-in user (request.user) is assigned to the user field of the MoodEntry before it is saved to the database. On the main page, only the mood entries belonging to the logged-in user are displayed by filtering the entries using MoodEntry.objects.filter(user=request.user). During migration, existing entries are assigned to a default user (the first user that we register).
+  
+  #### What is the difference between authentication and authorization, and what happens when a user logs in? Explain how Django implements these two concepts.
+  Authentication is the process of verifying the identity of a user so that they are indeed who they claim to be while authorization is the process of determining what permissions a user has to do something. In my code, when a user logs in through the login_user function, the system verifies the submitted credentials using Django's AuthenticationForm module. If it's correct, the get_user() method retrieves the user object, and the login function logs the user into the current session. After a successful login, the user is directed to main.html, with their session tracked through cookies. Django supports authentication through django.contrib.auth, and in terms of authorization it also has decorators like @login_required to restrict certain views only to authenticated users.
+
+  #### How does Django remember logged-in users? Explain other uses of cookies and whether all cookies are safe to use.
+  Django remembers logged-in users through sessions and cookies, where a session ID is stored in a cookie on the user's browser after login. Each time the user makes a request, the session ID cookie is sent back to the server, allowing Django to retrieve the associated session data and recognize the user. Aside that, cookies can store preferences, track user activity, and remember shopping carts. When cookie data falls into the wrong hands, it can be used for malicious purposes. As an example, an attacker might use cookies to make unauthorized requests on behalf of a user without their consent (known as Cross Site Request Forgery).
+
+  #### Explain how did you implement the checklist step-by-step (apart from following the tutorial).
+  
+  
+</details>
+<details>
 <summary>WEEK 2</summary>
   
-### Explain why we need data delivery in implementing a platform.
+#### Explain why we need data delivery in implementing a platform.
 Data delivery is important for platform implementation because it ensures efficient communication between the platform's components and users. This allows for the website to make real-time updates and interactions. For large-scale platforms, reliable data delivery is needed to keep performance up under increased demand. It also ensures the secure transmission of data, protecting the platform from breaches, attackers and unauthorized access.
 
 #### In your opinion, which is better, XML or JSON? Why is JSON more popular than XML?
