@@ -115,7 +115,7 @@ I also made a file called login.html with content like below, and also connect i
 Apart from that, I make a logout button in main.html which is connected through urls.py to the logout function in views.py.
 To restrict access to the main page, I add the code snippet @login_required(login_url='/login') above the show_main function so that the main page can only be accessed by authenticated users.
 
-#### 2. Display logged in user details such as username and apply cookies like last login to the application's main page.
+#### 2. Use the Data from the Cookies
 For this, I add the imports for HttpResponseRedirect, reverse, and datetime at the top of the views.py file. Then I modify the login and logout functions to make use of the cookies such that they look like this: 
 ```
 def login_user(request):
@@ -157,9 +157,40 @@ Then, I modify the main.html file to display the last login session like so:
 ...
 ```
 
-#### 3. Connect the models Product and User.
+#### 3. Connect the models Product and User and Display the Username on the Main Page
+In models.py, I import User from django.contrib.auth.models, then I add this code snippet to it to connect Product to User with a relationship:
+```
+class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+...
+```
+Then, I modify the create_product_entry function in models.py. The `commit=False` parameter stops Django from saving the form's created object to the database right away so that we can modify the object before saving. Then, we assign the `user` field with the `User` object from `request.user`, linking the object to the currently logged-in user.
+```
+def create_product_entry(request):
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        product_entry = form.save(commit=False)
+        product_entry.user = request.user
+        product_entry.save()
+        return redirect('main:show_main')
+    
+    context = {'form': form}
+    return render(request, "create_product_entry.html", context)
+```
+Also, modify the show_main function so that it can display the logged in user's username on the main page of the app.
+```
+def show_main(request):
+    product_entries = Product.objects.filter(user=request.user)
+    context = {
+        'app_name' : 'Upcycle Shop',
+        'name': request.user.username,
+    ...
+    }
+```
 
 #### 4. Make two user accounts with three dummy data each, using the model made in the application beforehand so that each data can be accessed by each account locally.
+For this step, I accessed the app on my localhost by running python manage.py runserver through http://localhost:8000/. Then, I registered two new users, dummyA and dummyB, then i added three dummy data for each user by creating new product entries. 
   
 </details>
 <details>
