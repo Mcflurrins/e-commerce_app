@@ -1,7 +1,7 @@
 # PWS Deployment Site:
 http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/ 
-
-# WEEK 2
+<details>
+<summary># WEEK 2</summary>
 ### Explain why we need data delivery in implementing a platform.
 Data delivery is important for platform implementation because it ensures efficient communication between the platform's components and users. This allows for the website to make real-time updates and interactions. For large-scale platforms, reliable data delivery is needed to keep performance up under increased demand. It also ensures the secure transmission of data, protecting the platform from breaches, attackers and unauthorized access.
 
@@ -109,8 +109,9 @@ This step concludes it for the site! The results can be seen in the next part, w
 ![image](https://github.com/user-attachments/assets/6698afa2-43be-485a-a8bc-d25702effece)
 ![image](https://github.com/user-attachments/assets/341de937-910f-453b-901b-be4b6efb0374)
 ![image](https://github.com/user-attachments/assets/63e6e4fb-bc8b-4393-abe2-dc0c5753d852)
-
-# WEEK 1
+</details>
+<details>
+<summary># WEEK 1</summary>
 ### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
 
 First, I made a repository on Github for this assignment. Then, I made a local directory on my computer for this project and connected it to the new github repo I just made through the 'git init' 
@@ -140,4 +141,4 @@ internet where you can get help if you're ever stuck programming a Django projec
 The Django model is called an ORM, which stands for Object-Relational Mapper. ORM is a technique where you can manipulate data from a database using object-oriented concepts. With an ORM library, 
 you can manipulate the data in your original language without SQL. Likewise, in Django, you can edit the data in the model with Python (no SQL!). From what I've learned in tutorial 1, the Django model
 uses classes to store data, which is why this ties back in with the object-oriented paradigm.
-
+</details>
