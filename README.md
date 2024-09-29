@@ -15,7 +15,19 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   Different selectors have different specificity values, and these can be calculated. The selector with the highest specificity value wins over the others and takes effect.
 
   ### Why does responsive design become an important concept in web application development? Give examples of applications that have and have not implemented responsive design!
+  Responsive design ensures a website or application provides an good viewing experience across various devices, like desktops, tablets, and smartphones. With the variety of screen sizes and resolutions, users expect ease of access and viewing regardless of the device they use. Applications like Google and Tokopedia have implemented responsive design nicely, allowing their interfaces to adapt smoothly to different devices. Older websites or applications that haven't updated, such as some legacy government sites, may not have implemented responsive design, resulting in poor usability on smaller screens. Here's a real life example of a website with no responsive design: https://dequeuniversity.com/library/responsive/1-non-responsive 
+  
   ### Explain the differences between margin, border, and padding, and how to implement these three things!
+
+  In CSS, margin, border, and padding are used to control the space around and inside elements. Margin is the space outside the element, separating it from other elements. Padding is the space inside the element, between its content and its border. Border is the line that surrounds the padding and content. For example, to implement these in CSS:
+
+  ```
+  element {
+    margin: 10px;   /* space outside the element */
+    border: 2px solid black;  /* border around the element */
+    padding: 20px;  /* space inside, around the content */
+  }
+  ```
   ### Explain the concepts of flex box and grid layout along with their uses!
   ### Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
 
