@@ -1,42 +1,77 @@
+
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>{{ app_name }}</title>
+{% endblock meta %}
 {% block content %}
-<h1>Upcycle Shop</h1>
-<h5>Application Name: </h5>
-<p>{{ app_name }}</p>
-<h5>Name: </h5>
-<p>{{ name }}</p>
-<h5>Class: </h5>
-<p>{{ class }}</p>
-<h5>Last login session: {{ last_login }}</h5>
+{% include 'navbar.html' %}
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-gray-100 flex flex-col">
+    <div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-8 bg-gray-100 flex flex-row space-x-8 items-center">
+        <!-- Profile Picture Column -->
+        <div class="flex-shrink-0">
+          <img src="profile.jpg" alt="Profile Picture" class="h-16 w-16 rounded-full object-cover">
+        </div>
+        
+        <!-- Info Card Column -->
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <p class="text-lg font-semibold">{{ name }}</p>
+          <p class="text-sm">{{ class }}</p>
+          <h5 class="text-xs text-gray-500">Last login session: {{ last_login }}</h5>
+        </div>
+      </div>
 
-{% if not product_entries %}
-<p>There is no product data in Upcycle shop.</p>
-{% else %}
-<table>
-    <tr>
-    <th>Product Name</th>
-    <th>Description</th>
-    <th>Price</th>
-    </tr>
 
-    {% comment %} This is how to display product data
-    {% endcomment %} 
-    {% for product_entry in product_entries %}
-    <tr>
-    <td>{{product_entry.name}}</td>
-    <td>{{product_entry.description}}</td>
-    <td>{{product_entry.price}}</td>
-    </tr>
-    {% endfor %}
-</table>
-{% endif %}
 
-<br />
+      {% if not product_entries %}
+      <p class="text-center text-gray-600">There is no product data in Upcycle shop.</p>
+  {% else %}
+      <div class="overflow-x-auto">
+          <table class="min-w-full bg-white border border-gray-200">
+              <thead>
+                  <tr class="bg-indigo-600 text-white">
+                      <th class="py-2 px-4 border-b">Product Name</th>
+                      <th class="py-2 px-4 border-b">Description</th>
+                      <th class="py-2 px-4 border-b">Price</th>
+                      <th class="py-2 px-4 border-b">Actions</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% comment %} This is how to display product data {% endcomment %}
+                  {% for product_entry in product_entries %}
+                      <tr class="hover:bg-gray-100">
+                          <td class="py-2 px-4 border-b">{{ product_entry.name }}</td>
+                          <td class="py-2 px-4 border-b">{{ product_entry.description }}</td>
+                          <td class="py-2 px-4 border-b">{{ product_entry.price }}</td>
+                          <td class="py-2 px-4 border-b">
+                            <div class="flex space-x-2">
+                                <a href="{% url 'main:edit_product' product_entry.pk %}">
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full sm:w-auto">
+                                        Edit
+                                    </button>
+                                </a>
+                                <a href="{% url 'main:delete_product' product_entry.pk %}">
+                                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full sm:w-auto">
+                                        Delete
+                                    </button>
+                                </a>
+                            </div>
+                          </td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  {% endif %}
+  
 
-<a href="{% url 'main:create_product_entry' %}">
-    <button>Add New Product Entry</button>
-</a>
-<a href="{% url 'main:logout' %}">
-    <button>Logout</button>
-</a>
+  <div class="fixed bottom-4 right-4 md:px-4 pb-4">
+    <a href="{% url 'main:create_product_entry' %}">
+        <button class="bg-indigo-600 text-white h-16 w-16 pb-2 rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-green-300">
+            <span class="text-3xl font-bold">+</span>
+        </button>
+    </a>
+</div>
+  
 {% endblock content %}
