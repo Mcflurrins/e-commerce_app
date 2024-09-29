@@ -19,7 +19,7 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   
   ### Explain the differences between margin, border, and padding, and how to implement these three things!
 
-  In CSS, margin, border, and padding are used to control the space around and inside elements. Margin is the space outside the element, separating it from other elements. Padding is the space inside the element, between its content and its border. Border is the line that surrounds the padding and content. For example, to implement these in CSS:
+  In CSS, margin, border, and padding are used to control the space around and inside elements. Margin is the space outside the element, separating it from other elements. Padding is the space inside the element, between its content and its border. Border is the line that surrounds the padding and content. For example, to implement these in CSS, we could do something like this:
 
   ```
   element {
@@ -28,7 +28,15 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
     padding: 20px;  /* space inside, around the content */
   }
   ```
+
+  ![image](https://github.com/user-attachments/assets/22118366-2e53-4444-a6c5-fb116017e032)
+
+  The box model is a very helpful diagram that shows where the margin, border and padding are located.
+
   ### Explain the concepts of flex box and grid layout along with their uses!
+
+  Flexbox and grid layout are used for creating responsive layouts. Flexbox is one-dimensional and arranges elements either in a row or column. It's good for aligning simple items within a container, such as navigation bars or horizontally centered content. Grid layout is two-dimensional and allows for more precise placement of items both in rows and columns, making it suitable for more complex layouts such as dashboards or image galleries. 
+  
   ### Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
 
 </details>
