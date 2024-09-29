@@ -1,0 +1,19 @@
+<!-- product_card.html -->
+<div class="bg-white shadow-md rounded-lg p-6">
+    <h3 class="text-lg font-bold">{{ product_entry.name }}</h3>
+    <p class="text-gray-700">{{ product_entry.description }}</p>
+    <p class="text-indigo-600 font-semibold">Price: {{ product_entry.price }}</p>
+    <div class="mt-4 flex justify-between space-x-4">
+      <a href="{% url 'main:edit_product' product_entry.pk %}">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+          Edit
+        </button>
+      </a>
+      <a href="{% url 'main:delete_product' product_entry.pk %}">
+        <button class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">
+          Delete
+        </button>
+      </a>
+    </div>
+  </div>
+  
