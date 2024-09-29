@@ -1,8 +1,202 @@
 # PWS Deployment Site:
 http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/ 
+<details>
+  <summary>WEEK 3</summary>
+  
+  ### What is the difference between HttpResponseRedirect() and redirect()?
+  HttpResponseRedirect() only accepts a url, however redirect() will return a HttpResponseRedirect() that accepts a model, view or url. redirect() is more convenient as it simplifies the redirection process, whereas HttpResponseRedirect() gives more control but requires manual URL handling.
 
-# WEEK 2
-### Explain why we need data delivery in implementing a platform.
+  ### Explain how the MoodEntry model is linked with User!
+  The MoodEntry model is connected to the User model in Django using a relationship so that each mood entry is related to a specific user. When a user submits a mood entry via the form, the logged-in user (request.user) is assigned to the user field of the MoodEntry before it is saved to the database. On the main page, only the mood entries belonging to the logged-in user are displayed by filtering the entries using MoodEntry.objects.filter(user=request.user). During migration, existing entries are assigned to a default user (the first user that we register).
+  
+  ### What is the difference between authentication and authorization, and what happens when a user logs in? Explain how Django implements these two concepts.
+  Authentication is the process of verifying the identity of a user so that they are indeed who they claim to be while authorization is the process of determining what permissions a user has to do something. In my code, when a user logs in through the login_user function, the system verifies the submitted credentials using Django's AuthenticationForm module. If it's correct, the get_user() method retrieves the user object, and the login function logs the user into the current session. After a successful login, the user is directed to main.html, with their session tracked through cookies. Django supports authentication through django.contrib.auth, and in terms of authorization it also has decorators like @login_required to restrict certain views only to authenticated users.
+
+  ### How does Django remember logged-in users? Explain other uses of cookies and whether all cookies are safe to use.
+  Django remembers logged-in users through sessions and cookies, where a session ID is stored in a cookie on the user's browser after login. Each time the user makes a request, the session ID cookie is sent back to the server, allowing Django to retrieve the associated session data and recognize the user. Aside that, cookies can store preferences, track user activity, and remember shopping carts. When cookie data falls into the wrong hands, it can be used for malicious purposes. As an example, an attacker might use cookies to make unauthorized requests on behalf of a user without their consent (known as Cross Site Request Forgery).
+
+  ### Explain how did you implement the checklist step-by-step (apart from following the tutorial).
+#### 1. Implement the register, login and logout functions.
+First, I import the Add UserCreationForm, logout, login_required dan messages modules at the top of my main/views.py file. The UserCreationForm module simplifies creating user registration forms in a web app. Then I add the following functions to this file.
+```
+def register(request):
+form = UserCreationForm()
+if request.method == "POST":
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Your account has been successfully created!')
+        return redirect('main:login')
+context = {'form':form}
+return render(request, 'register.html', context)
+
+def login_user(request):
+   if request.method == 'POST':
+      form = AuthenticationForm(data=request.POST)
+      if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('main:show_main')
+   else:
+      form = AuthenticationForm(request)
+   context = {'form': form}
+   return render(request, 'login.html', context)
+
+def logout_user(request):
+    logout(request)
+    return redirect('main:login')
+```
+Then I make a new file called register.html with the following content, and also connect its URL path to urls.py:
+```
+{% extends 'base.html' %} {% block meta %}
+<title>Register</title>
+{% endblock meta %} {% block content %}
+
+<div class="login">
+  <h1>Register</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+      <tr>
+        <td></td>
+        <td><input type="submit" name="submit" value="Register" /></td>
+      </tr>
+    </table>
+  </form>
+
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+
+{% endblock content %}
+```
+I also made a file called login.html with content like below, and also connect it to urls.py.
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="login">
+  <h1>Login</h1>
+
+  <form method="POST" action="">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+      <tr>
+        <td></td>
+        <td><input class="btn login_btn" type="submit" value="Login" /></td>
+      </tr>
+    </table>
+  </form>
+
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %} Don't have an account yet?
+  <a href="{% url 'main:register' %}">Register Now</a>
+</div>
+
+{% endblock content %}
+```
+Apart from that, I make a logout button in main.html which is connected through urls.py to the logout function in views.py.
+To restrict access to the main page, I add the code snippet @login_required(login_url='/login') above the show_main function so that the main page can only be accessed by authenticated users.
+
+#### 2. Use the Data from the Cookies
+For this, I add the imports for HttpResponseRedirect, reverse, and datetime at the top of the views.py file. Then I modify the login and logout functions to make use of the cookies such that they look like this: 
+```
+def login_user(request):
+   if request.method == 'POST':
+      form = AuthenticationForm(data=request.POST)
+
+      if form.is_valid():
+        user = form.get_user()
+        login(request, user)
+        response = HttpResponseRedirect(reverse("main:show_main"))
+        response.set_cookie('last_login', str(datetime.datetime.now()))
+        return response
+
+   else:
+      form = AuthenticationForm(request)
+   context = {'form': form}
+   return render(request, 'login.html', context)
+
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
+```
+I also change the show_main function to display the name of the logged-in user.
+```
+context = {
+    'name': 'Pak Bepe',
+    'class': 'PBP D',
+    'npm': '2306123456',
+    'mood_entries': mood_entries,
+    'last_login': request.COOKIES['last_login'],
+}
+```
+Then, I modify the main.html file to display the last login session like so: 
+```
+...
+<h5>Last login session: {{ last_login }}</h5>
+...
+```
+
+#### 3. Connect the models Product and User and Display the Username on the Main Page
+In models.py, I import User from django.contrib.auth.models, then I add this code snippet to it to connect Product to User with a relationship:
+```
+class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+...
+```
+Then, I modify the create_product_entry function in models.py. The `commit=False` parameter stops Django from saving the form's created object to the database right away so that we can modify the object before saving. Then, we assign the `user` field with the `User` object from `request.user`, linking the object to the currently logged-in user.
+```
+def create_product_entry(request):
+    form = ProductForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        product_entry = form.save(commit=False)
+        product_entry.user = request.user
+        product_entry.save()
+        return redirect('main:show_main')
+    
+    context = {'form': form}
+    return render(request, "create_product_entry.html", context)
+```
+Also, modify the show_main function so that it can display the logged in user's username on the main page of the app.
+```
+def show_main(request):
+    product_entries = Product.objects.filter(user=request.user)
+    context = {
+        'app_name' : 'Upcycle Shop',
+        'name': request.user.username,
+    ...
+    }
+```
+
+#### 4. Make two user accounts with three dummy data each, using the model made in the application beforehand so that each data can be accessed by each account locally.
+For this step, I accessed the app on my localhost by running python manage.py runserver through http://localhost:8000/. Then, I registered two new users, dummyA and dummyB, then i added three dummy data for each user by creating new product entries. 
+  
+</details>
+<details>
+<summary>WEEK 2</summary>
+  
+#### Explain why we need data delivery in implementing a platform.
 Data delivery is important for platform implementation because it ensures efficient communication between the platform's components and users. This allows for the website to make real-time updates and interactions. For large-scale platforms, reliable data delivery is needed to keep performance up under increased demand. It also ensures the secure transmission of data, protecting the platform from breaches, attackers and unauthorized access.
 
 #### In your opinion, which is better, XML or JSON? Why is JSON more popular than XML?
@@ -109,8 +303,11 @@ This step concludes it for the site! The results can be seen in the next part, w
 ![image](https://github.com/user-attachments/assets/6698afa2-43be-485a-a8bc-d25702effece)
 ![image](https://github.com/user-attachments/assets/341de937-910f-453b-901b-be4b6efb0374)
 ![image](https://github.com/user-attachments/assets/63e6e4fb-bc8b-4393-abe2-dc0c5753d852)
-
-# WEEK 1
+</details>
+<details>
+<summary> WEEK 1
+</summary>
+  
 ### Explain how you implemented the checklist above step-by-step (not just following the tutorial).
 
 First, I made a repository on Github for this assignment. Then, I made a local directory on my computer for this project and connected it to the new github repo I just made through the 'git init' 
@@ -140,4 +337,4 @@ internet where you can get help if you're ever stuck programming a Django projec
 The Django model is called an ORM, which stands for Object-Relational Mapper. ORM is a technique where you can manipulate data from a database using object-oriented concepts. With an ORM library, 
 you can manipulate the data in your original language without SQL. Likewise, in Django, you can edit the data in the model with Python (no SQL!). From what I've learned in tutorial 1, the Django model
 uses classes to store data, which is why this ties back in with the object-oriented paradigm.
-
+</details>
