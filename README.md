@@ -1,5 +1,16 @@
 # PWS Deployment Site:
-http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/ 
+http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
+
+<details>
+  <summary>WEEK 4</summary>
+  ###  If there are multiple CSS selectors for an HTML element, explain the priority order of these CSS selectors!
+  ###  Why does responsive design become an important concept in web application development? Give examples of applications that have and have not implemented responsive design!
+  ###  Explain the differences between margin, border, and padding, and how to implement these three things!
+  ###  Explain the concepts of flex box and grid layout along with their uses!
+  ###  Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
+
+</details>
+
 <details>
   <summary>WEEK 3</summary>
   
