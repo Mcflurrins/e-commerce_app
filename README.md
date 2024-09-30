@@ -38,6 +38,49 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   Flexbox and grid layout are used for creating responsive layouts. Flexbox is one-dimensional and arranges elements either in a row or column. It's good for aligning simple items within a container, such as navigation bars or horizontally centered content. Grid layout is two-dimensional and allows for more precise placement of items both in rows and columns, making it suitable for more complex layouts such as dashboards or image galleries. 
   
   ### Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
+  #### 1. Adding Tailwind CSS to the Project
+  ```
+  <head>
+  {% block meta %}
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% endblock meta %}
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  </head>
+  ```
+  #### 2. Adding Edit Product and Delete Product features
+   
+   ```
+   def edit_product(request, id):
+    product = Product.objects.get(pk = id)
+
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        # Save form and return to home page
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+   ```
+
+   ```
+   def delete_product(request, id):
+    product = Product.objects.get(pk = id)
+    product.delete()
+    # Return to home page
+    return HttpResponseRedirect(reverse('main:show_main'))
+   ```
+  #### 3. Adding a Navigation Bar 
+  ```
+  {% extends 'base.html' %}
+  {% block content %}
+  {% include 'navbar.html' %}
+  ...
+  {% endblock content%}
+  ```
 
 </details>
 
