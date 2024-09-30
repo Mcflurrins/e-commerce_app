@@ -86,6 +86,29 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
 
 <details>
   <summary>WEEK 3</summary>
+
+  #### 4. Configure Static Files
+  ```
+  ...
+  MIDDLEWARE = [
+      'django.middleware.security.SecurityMiddleware',
+      'whitenoise.middleware.WhiteNoiseMiddleware', # Add it directly under SecurityMiddleware
+      ...
+  ]
+  ...
+  ```
+
+  ```
+  ...
+  STATIC_URL = '/static/'
+  if DEBUG:
+      STATICFILES_DIRS = [
+          BASE_DIR / 'static' # refers to /static root project in development mode
+      ]
+  else:
+      STATIC_ROOT = BASE_DIR / 'static' # refers to /static root project in production mode
+  ...
+  ```
   
   ### What is the difference between HttpResponseRedirect() and redirect()?
   HttpResponseRedirect() only accepts a url, however redirect() will return a HttpResponseRedirect() that accepts a model, view or url. redirect() is more convenient as it simplifies the redirection process, whereas HttpResponseRedirect() gives more control but requires manual URL handling.
