@@ -1,7 +1,114 @@
 # PWS Deployment Site:
-http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/ 
+http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
+
+<details>
+  <summary>WEEK 4</summary>
+
+  ### If there are multiple CSS selectors for an HTML element, explain the priority order of these CSS selectors!
+  Every CSS selector has a place in the specificity hierarchy, with the four categories ranked below:
+  
+  1. Inline styles - E.g. < h1 style="color: pink'; >
+  2. IDs - E.g. #navbar
+  3. Classes, pseudo-classes, attribute selectors - E.g. .test, :hover, [href]
+  4. Elements and pseudo-elements - E.g. h1, ::before
+
+  Different selectors have different specificity values, and these can be calculated. The selector with the highest specificity value wins over the others and takes effect.
+
+  ### Why does responsive design become an important concept in web application development? Give examples of applications that have and have not implemented responsive design!
+  Responsive design ensures a website or application provides an good viewing experience across various devices, like desktops, tablets, and smartphones. With the variety of screen sizes and resolutions, users expect ease of access and viewing regardless of the device they use. Applications like Google and Tokopedia have implemented responsive design nicely, allowing their interfaces to adapt smoothly to different devices. Older websites or applications that haven't updated, such as some legacy government sites, may not have implemented responsive design, resulting in poor usability on smaller screens. Here's a real life example of a website with no responsive design: https://dequeuniversity.com/library/responsive/1-non-responsive 
+  
+  ### Explain the differences between margin, border, and padding, and how to implement these three things!
+
+  In CSS, margin, border, and padding are used to control the space around and inside elements. Margin is the space outside the element, separating it from other elements. Padding is the space inside the element, between its content and its border. Border is the line that surrounds the padding and content. For example, to implement these in CSS, we could do something like this:
+
+  ```
+  element {
+    margin: 10px;   /* space outside the element */
+    border: 2px solid black;  /* border around the element */
+    padding: 20px;  /* space inside, around the content */
+  }
+  ```
+
+  ![image](https://github.com/user-attachments/assets/22118366-2e53-4444-a6c5-fb116017e032)
+
+  The box model is a very helpful diagram that shows where the margin, border and padding are located.
+
+  ### Explain the concepts of flex box and grid layout along with their uses!
+
+  Flexbox and grid layout are used for creating responsive layouts. Flexbox is one-dimensional and arranges elements either in a row or column. It's good for aligning simple items within a container, such as navigation bars or horizontally centered content. Grid layout is two-dimensional and allows for more precise placement of items both in rows and columns, making it suitable for more complex layouts such as dashboards or image galleries. 
+  
+  ### Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
+  #### 1. Adding Tailwind CSS to the Project
+  ```
+  <head>
+  {% block meta %}
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% endblock meta %}
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  </head>
+  ```
+  #### 2. Adding Edit Product and Delete Product features
+   
+   ```
+   def edit_product(request, id):
+    product = Product.objects.get(pk = id)
+
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        # Save form and return to home page
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+   ```
+
+   ```
+   def delete_product(request, id):
+    product = Product.objects.get(pk = id)
+    product.delete()
+    # Return to home page
+    return HttpResponseRedirect(reverse('main:show_main'))
+   ```
+  #### 3. Adding a Navigation Bar 
+  ```
+  {% extends 'base.html' %}
+  {% block content %}
+  {% include 'navbar.html' %}
+  ...
+  {% endblock content%}
+  ```
+
+</details>
+
 <details>
   <summary>WEEK 3</summary>
+
+  #### 4. Configure Static Files
+  ```
+  ...
+  MIDDLEWARE = [
+      'django.middleware.security.SecurityMiddleware',
+      'whitenoise.middleware.WhiteNoiseMiddleware', # Add it directly under SecurityMiddleware
+      ...
+  ]
+  ...
+  ```
+
+  ```
+  ...
+  STATIC_URL = '/static/'
+  if DEBUG:
+      STATICFILES_DIRS = [
+          BASE_DIR / 'static' # refers to /static root project in development mode
+      ]
+  else:
+      STATIC_ROOT = BASE_DIR / 'static' # refers to /static root project in production mode
+  ...
+  ```
   
   ### What is the difference between HttpResponseRedirect() and redirect()?
   HttpResponseRedirect() only accepts a url, however redirect() will return a HttpResponseRedirect() that accepts a model, view or url. redirect() is more convenient as it simplifies the redirection process, whereas HttpResponseRedirect() gives more control but requires manual URL handling.
