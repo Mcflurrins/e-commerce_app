@@ -109,7 +109,284 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
       STATIC_ROOT = BASE_DIR / 'static' # refers to /static root project in production mode
   ...
   ```
+
+#### 5. External css 
+I modify the base html to be like so: 
+```
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block meta %} {% endblock meta %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+  </head>
+  <body>
+    {% block content %} {% endblock content %}
+  </body>
+</html>
+```
+Then, I add custom styling in global.css.
+```
+.form-style form input, form textarea, form select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #bcbcbc;
+    border-radius: 0.375rem;
+}
+.form-style form input:focus, form textarea:focus, form select:focus {
+    outline: none;
+    border-color: #174130;
+    box-shadow: 0 0 0 3px #15584e;
+}
+@keyframes shine {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+.animate-shine {
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.3));
+    background-size: 200% 100%;
+    animation: shine 3s infinite;
+}
+```
+After that, I style my login page like this:
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center w-screen bg-yellow-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-green-900 text-3xl font-extrabold text-gray-900">
+        Login to your account
+      </h2>
+    </div>
+    <form class="mt-8 space-y-6" method="POST" action="">
+      {% csrf_token %}
+      <input type="hidden" name="remember" value="true">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <label for="username" class="sr-only">Username</label>
+          <input id="username" name="username" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-green-800 placeholder-amber-600 text-gray-900 rounded-t-md focus:outline-none focus:ring-amber-700 focus:border-amber-700 focus:z-10 sm:text-sm" placeholder="Username">
+        </div>
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <input id="password" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-green-800 placeholder-amber-600 text-gray-900 rounded-b-md focus:outline-none focus:ring-amber-700 focus:border-amber-700 focus:z-10 sm:text-sm" placeholder="Password">
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-800 hover:bg-green-950 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700">
+          Sign in
+        </button>
+      </div>
+    </form>
+
+    {% if messages %}
+    <div class="mt-4">
+      {% for message in messages %}
+      {% if message.tags == "success" %}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ message }}</span>
+            </div>
+        {% elif message.tags == "error" %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ message }}</span>
+            </div>
+        {% else %}
+            <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ message }}</span>
+            </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+      <p class="text-sm text-green-900 ">
+        Don't have an account yet?
+        <a href="{% url 'main:register' %}" class="font-medium text-amber-600 hover:text-amber-300">
+          Register Now
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+```
+I also style the register page: 
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Register</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-yellow-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8 form-style">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-green-800">
+        Create your account
+      </h2>
+    </div>
+    <form class="mt-8 space-y-6" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="remember" value="true">
+      <div class="rounded-md shadow-sm -space-y-px">
+        {% for field in form %}
+          <div class="{% if not forloop.first %}mt-4{% endif %}">
+            <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-black">
+              {{ field.label }}
+            </label>
+            <div class="relative">
+              {{ field }}
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                {% if field.errors %}
+                  <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                  </svg>
+                {% endif %}
+              </div>
+            </div>
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div>
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-800 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800">
+          Register
+        </button>
+      </div>
+    </form>
+
+    {% if messages %}
+    <div class="mt-4">
+      {% for message in messages %}
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ message }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+      <p class="text-sm text-black">
+        Already have an account?
+        <a href="{% url 'main:login' %}" class="font-medium text-green-800 hover:text-green-800">
+          Login here
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+```
+I style the main page too, which is connected to images in the static/image directory in the project root. This is how the sad face becomes shown when there are no entries in the website.
+
+```
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>{{ app_name }}</title>
+{% endblock meta %}
+{% block content %}
+{% include 'navbar.html' %}
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-yellow-50 flex flex-col">
+    <div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-8 bg-yellow-50 flex flex-row space-x-8 items-center">
+        <!-- Profile Picture Column -->
+        <div class="flex-shrink-0">
+          <img src="{% static 'image/profile.png' %}" alt="Profile Picture" class="h-16 w-16 rounded-full object-cover">
+        </div>
+        
+        <!-- Info Card Column -->
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <p class="text-lg font-semibold">{{ name }}</p>
+          <p class="text-sm">{{ class }}</p>
+          <h5 class="text-xs text-gray-500">Last login session: {{ last_login }}</h5>
+        </div>
+      </div>
+
+
+
+<!-- main.html -->
+{% if not product_entries %}
+<div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+    <img src="{% static 'image/very-sad.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+    <p class="text-center text-gray-600 mt-4">There is no mood data in product database.</p>
+</div>
+  <p>There is no product data in Upcycle shop.</p>
+{% else %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for product_entry in product_entries %}
+      {% include 'product_card.html' %}
+    {% endfor %}
+  </div>
+{% endif %}
   
+  <div class="fixed bottom-4 right-4 md:px-4 pb-4">
+    <a href="{% url 'main:create_product_entry' %}">
+        <button class="bg-green-800 text-white h-16 w-16 pb-2 rounded-full flex items-center justify-center shadow-lg hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-300">
+            <span class="text-3xl font-bold">+</span>
+        </button>
+    </a>
+</div>
+  
+{% endblock content %}
+```
+The home page includes a product card, which is put in another file so as not to clutter main.html.
+```
+<div class="relative break-inside-avoid">
+  <div class="absolute top-2 z-10 left-1/2 -translate-x-1/2 flex items-center -space-x-2">
+  </div>
+  <div class="relative top-5 bg-white shadow-md rounded-lg mb-6 break-inside-avoid flex flex-col transform rotate-1 hover:rotate-0 transition-transform duration-300">
+    <div class="bg-green-800 text-gray-800 p-4 rounded-t-lg ">
+      <h3 class="font-bold text-xl text-white mb-2">{{product_entry.name}}</h3>
+      <p class="text-white">${{product_entry.price}}</p>
+    </div>
+    <div class="p-4">
+      <p class="font-semibold text-lg mb-2">Description</p> 
+      <p class="text-gray-700 mb-2">
+        <span class="bg-[linear-gradient(to_bottom,transparent_0%,transparent_calc(100%_-_1px),#98a692_calc(100%_-_1px))] bg-[length:100%_1.5rem] pb-1">{{product_entry.description}}</span>
+      </p>
+      <div class="mt-4">
+        <div class="relative pt-1">
+          <div class="flex mb-2 items-center justify-between">
+          </div>
+          <div class="overflow-hidden h-2 mb-4 text-xs flex rounded">
+            <div style="width:{% if product_entry.product_intensity > 10 %}100%{% else %}{{ product_entry.product_intensity }}0%{% endif %}" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute top-0 -right-4 flex space-x-1">
+    <a href="{% url 'main:edit_product' product_entry.pk %}" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+      </svg>
+    </a>
+    <a href="{% url 'main:delete_product' product_entry.pk %}" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+      </svg>
+    </a>
+  </div>
+</div>
+```
   ### What is the difference between HttpResponseRedirect() and redirect()?
   HttpResponseRedirect() only accepts a url, however redirect() will return a HttpResponseRedirect() that accepts a model, view or url. redirect() is more convenient as it simplifies the redirection process, whereas HttpResponseRedirect() gives more control but requires manual URL handling.
 
