@@ -73,12 +73,12 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
     product.delete()
     # Return to home page
     return HttpResponseRedirect(reverse('main:show_main'))
+     ```
 
+  The edit_product function in Django allows users to modify an existing product's details. It first retrieves the product using its primary key (id) via Product.objects.get(pk=id). This product instance is then used to populate a form, ProductForm, which is initialized with either the submitted POST data or the current product details if no data has been submitted yet. The function checks if the form is valid upon a POST request. If the form is valid, it saves the changes to the database and redirects the user to the home page. If the form is not valid or when first loaded, it renders the edit_product.html template, providing the form for the user to edit.
+  
+  The delete_product function retrieves the product instance using Product.objects.get(pk=id) based on the provided ID and then calls the delete() method on that instance to remove it. After successfully deleting the product, the function redirects the user back to the home page using HttpResponseRedirect(reverse('main:show_main')). 
 
-The edit_product function in Django allows users to modify an existing product's details. It first retrieves the product using its primary key (id) via Product.objects.get(pk=id). This product instance is then used to populate a form, ProductForm, which is initialized with either the submitted POST data or the current product details if no data has been submitted yet. The function checks if the form is valid upon a POST request. If the form is valid, it saves the changes to the database and redirects the user to the home page. If the form is not valid or when first loaded, it renders the edit_product.html template, providing the form for the user to edit.
-
-The delete_product function retrieves the product instance using Product.objects.get(pk=id) based on the provided ID and then calls the delete() method on that instance to remove it. After successfully deleting the product, the function redirects the user back to the home page using HttpResponseRedirect(reverse('main:show_main')). 
-   ```
   #### 3. Adding a Navigation Bar 
   First, modify main.html to include the navigation bar.
   ```
