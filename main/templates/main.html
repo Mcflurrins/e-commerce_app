@@ -7,11 +7,11 @@
 {% endblock meta %}
 {% block content %}
 {% include 'navbar.html' %}
-<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-gray-100 flex flex-col">
-    <div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-8 bg-gray-100 flex flex-row space-x-8 items-center">
+<div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-24 min-h-screen bg-yellow-50 flex flex-col">
+    <div class="overflow-x-hidden px-4 md:px-8 pb-8 pt-8 bg-yellow-50 flex flex-row space-x-8 items-center">
         <!-- Profile Picture Column -->
         <div class="flex-shrink-0">
-          <img src="profile.jpg" alt="Profile Picture" class="h-16 w-16 rounded-full object-cover">
+          <img src="{% static 'image/profile.png' %}" alt="Profile Picture" class="h-16 w-16 rounded-full object-cover">
         </div>
         
         <!-- Info Card Column -->
@@ -26,6 +26,10 @@
 
 <!-- main.html -->
 {% if not product_entries %}
+<div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+    <img src="{% static 'image/very-sad.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+    <p class="text-center text-gray-600 mt-4">There is no mood data in product database.</p>
+</div>
   <p>There is no product data in Upcycle shop.</p>
 {% else %}
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -37,7 +41,7 @@
   
   <div class="fixed bottom-4 right-4 md:px-4 pb-4">
     <a href="{% url 'main:create_product_entry' %}">
-        <button class="bg-indigo-600 text-white h-16 w-16 pb-2 rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-green-300">
+        <button class="bg-green-800 text-white h-16 w-16 pb-2 rounded-full flex items-center justify-center shadow-lg hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-300">
             <span class="text-3xl font-bold">+</span>
         </button>
     </a>

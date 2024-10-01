@@ -18,7 +18,7 @@ def show_main(request):
         'name': request.user.username,
         'class': 'KKI',
         'product_entries': product_entries,
-        'last_login': request.COOKIES['last_login'],
+        'last_login': request.COOKIES.get('last_login', 'Not set'),
     }
 
     return render(request, "main.html", context)
