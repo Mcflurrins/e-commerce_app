@@ -82,11 +82,6 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   {% endblock content%}
   ```
 
-</details>
-
-<details>
-  <summary>WEEK 3</summary>
-
   #### 4. Configure Static Files
   ```
   ...
@@ -387,6 +382,12 @@ The home page includes a product card, which is put in another file so as not to
   </div>
 </div>
 ```
+
+</details>
+
+<details>
+  <summary>WEEK 3</summary>
+  
   ### What is the difference between HttpResponseRedirect() and redirect()?
   HttpResponseRedirect() only accepts a url, however redirect() will return a HttpResponseRedirect() that accepts a model, view or url. redirect() is more convenient as it simplifies the redirection process, whereas HttpResponseRedirect() gives more control but requires manual URL handling.
 
