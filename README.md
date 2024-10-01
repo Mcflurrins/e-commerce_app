@@ -39,6 +39,7 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   
   ### Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
   #### 1. Adding Tailwind CSS to the Project
+  To integrate Tailwind CSS with the Django template, we can use the CDN (Content Delivery Network) by including the Tailwind CDN link in the `<head>` section of the `base.html` template.
   ```
   <head>
   {% block meta %}
@@ -50,7 +51,7 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   </head>
   ```
   #### 2. Adding Edit Product and Delete Product features
-   
+   I add the following functions into views.py:
    ```
    def edit_product(request, id):
     product = Product.objects.get(pk = id)
@@ -72,14 +73,80 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
     product.delete()
     # Return to home page
     return HttpResponseRedirect(reverse('main:show_main'))
+
+
+The edit_product function in Django allows users to modify an existing product's details. It first retrieves the product using its primary key (id) via Product.objects.get(pk=id). This product instance is then used to populate a form, ProductForm, which is initialized with either the submitted POST data or the current product details if no data has been submitted yet. The function checks if the form is valid upon a POST request. If the form is valid, it saves the changes to the database and redirects the user to the home page. If the form is not valid or when first loaded, it renders the edit_product.html template, providing the form for the user to edit.
+
+The delete_product function retrieves the product instance using Product.objects.get(pk=id) based on the provided ID and then calls the delete() method on that instance to remove it. After successfully deleting the product, the function redirects the user back to the home page using HttpResponseRedirect(reverse('main:show_main')). 
    ```
   #### 3. Adding a Navigation Bar 
+  First, modify main.html to include the navigation bar.
   ```
   {% extends 'base.html' %}
   {% block content %}
   {% include 'navbar.html' %}
   ...
   {% endblock content%}
+  ```
+  Then, I make a file called navbar.html, which is styled as follows:
+```
+<nav class="bg-amber-400 shadow-lg fixed top-0 left-0 z-40 w-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-center text-green-800">Upcycle Shop</h1>
+        </div>
+        <div class="hidden md:flex items-center">
+          {% if user.is_authenticated %}
+            <span class="text-white mr-4">Welcome, {{ user.username }}</span>
+            <a href="{% url 'main:logout' %}" class="text-center bg-green-800 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+              Logout
+            </a>
+          {% else %}
+            <a href="{% url 'main:login' %}" class="text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 mr-2">
+              Login
+            </a>
+            <a href="{% url 'main:register' %}" class="text-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+              Register
+            </a>
+          {% endif %}
+        </div>
+        <div class="md:hidden flex items-center">
+          <button class="mobile-menu-button">
+            <svg class="w-6 h-6 text-white" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div class="mobile-menu hidden md:hidden  px-4 w-full md:max-w-full">
+      <div class="pt-2 pb-3 space-y-1 mx-auto">
+        {% if user.is_authenticated %}
+          <span class="block text-white-300 px-3 py-2">Welcome, {{ user.username }}</span>
+          <a href="{% url 'main:logout' %}" class="block text-center bg-green-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+            Logout
+          </a>
+        {% else %}
+          <a href="{% url 'main:login' %}" class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 mb-2">
+            Login
+          </a>
+          <a href="{% url 'main:register' %}" class="block text-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+            Register
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <script>
+      const btn = document.querySelector("button.mobile-menu-button");
+      const menu = document.querySelector(".mobile-menu");
+    
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+    </script>
+  </nav>
   ```
 
   #### 4. Configure Static Files
