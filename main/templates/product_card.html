@@ -7,9 +7,11 @@
       <p class="text-white">${{product_entry.price}}</p>
     </div>
     <div class="p-4">
-      <p class="font-semibold text-lg mb-2">Description</p> 
+      <p class="font-semibold text-lg mb-2">Description</p>
       <p class="text-gray-700 mb-2">
-        <span class="bg-[linear-gradient(to_bottom,transparent_0%,transparent_calc(100%_-_1px),#98a692_calc(100%_-_1px))] bg-[length:100%_1.5rem] pb-1">{{product_entry.description}}</span>
+        <span class=" pb-1 overflow-hidden text-ellipsis block max-h-20" style="word-break: break-word;">
+          {{product_entry.description}}
+        </span>
       </p>
       <div class="mt-4">
         <div class="relative pt-1">
