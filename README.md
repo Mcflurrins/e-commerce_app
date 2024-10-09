@@ -196,6 +196,49 @@ Don't forget to add an event listener in the modal to submit the data.
     hideModal();  // Then hide the modal after completion
 ```
 </details>
+
+#### 5. Sanitizing the Data
+First, import strip_tags into views.py and forms.py, then change the add_mood_entry_ajax function in views.py to strip HTML tag input in the forms. 
+```
+from django.utils.html import strip_tags
+...
+@csrf_exempt
+@require_POST
+def add_product_entry_ajax(request):
+    name = strip_tags(request.POST.get("name")) # strip HTML tags!
+    description = strip_tags(request.POST.get("description")) # strip HTML tags!
+    ...
+```
+Then, add the function to clean the forms in forms.py, which will be called when form.is_valid() is called.
+```
+class ProductForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ["name", "description", "price"]
+
+    def clean_name(self):
+        name = self.cleaned_data["name"]
+        return strip_tags(name)
+
+    def clean_description(self):
+        description = self.cleaned_data["description"]
+        return strip_tags(description)
+```
+Then, also add this script into main.html
+```
+{% block meta %}
+...
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+...
+{% endblock meta %}
+```
+And add DOM.purify.sanitize to the refreshMoodEntries function, like so:
+```
+productEntries.forEach((item) => {
+    const name = DOMPurify.sanitize(item.fields.name);
+    const description = DOMPurify.sanitize(item.fields.description);
+```
+
 <details>
   <summary>WEEK 4</summary>
 
