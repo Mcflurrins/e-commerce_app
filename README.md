@@ -16,6 +16,7 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   While frontend validation enhances user experience, backend validation is crucial for security. Frontend code can be easily manipulated by users, allowing potential security risks like Cross-Site Scripting (XSS). Backend validation ensures that all data sent to the server is properly cleaned and validated, safeguarding the system from malicious inputs.
   
   ### Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
+  
 '''
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
