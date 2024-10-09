@@ -1,6 +1,23 @@
 # PWS Deployment Site:
 http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
-
+<details>
+  <summary>WEEK 5</summary>
+  
+  ### Explain the benefits of using JavaScript in developing web applications!
+  JavaScript enables dynamic features on the client-side which enhances user experience by making applications feel faster and more responsive. For example, AJAX allows data fetching from a Django server without reloading the page. It can also validate forms on the client-side, giving instant feedback like checking email formats before submitting to the server. Additionally, JavaScript allows for transitions, animations, and style changes along with interactive design, such as responsive dropdown menus or popups. JavaScript supports asynchronous programming, like Promises and async/await, which allows tasks like API data fetching to occur in the background. It also integrates well with front-end frameworks like React or Vue, enabling the development of complex single-page applications (SPAs) while Django manages the backend.
+  
+  ### Explain why we need to use await when we call fetch()! What would happen if we don't use await?
+  The await keyword ensures the program waits for the fetch request to complete before moving on. Without await, the code would continue executing before the fetch result is available, which could lead to errors if you try to access data that hasn't been fetched yet. Essentially, using await ensures proper data retrieval before proceeding.
+  
+  ### Why do we need to use the csrf_exempt decorator on the view used for AJAX POST?
+  The csrf_exempt decorator disables Django’s default CSRF protection for a particular view, often needed for AJAX POST requests that lack proper CSRF token management. Without this, Django may block the request with a 403 error. However, using csrf_exempt should be done carefully, as it reduces security by disabling CSRF protection.
+  
+  ### On this week's tutorial, the user input sanitization is done in the back-end as well. Why can't the sanitization be done just in the front-end?
+  While frontend validation enhances user experience, backend validation is crucial for security. Frontend code can be easily manipulated by users, allowing potential security risks like Cross-Site Scripting (XSS). Backend validation ensures that all data sent to the server is properly cleaned and validated, safeguarding the system from malicious inputs.
+  
+  ### Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
+  
+</details>
 <details>
   <summary>WEEK 4</summary>
 
