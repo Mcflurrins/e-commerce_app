@@ -17,6 +17,7 @@ http://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id/
   
   ### Explain how you implemented the checklist above step-by-step (not just following the tutorial)!
 
+#### 1. Creating Function to Add a Mood with AJAX
 First, I import the following modules then I put in the function, add_product_entry_ajax into views.py
 ```
 from django.views.decorators.csrf import csrf_exempt
@@ -43,7 +44,7 @@ def add_product_entry_ajax(request):
     else:
         return HttpResponse('Missing fields', status=400)
 ```
-
+Then, I also route this into urlpatterns. 
 ```
 from main.views import ..., add_mood_entry_ajax
 urlpatterns = [
@@ -51,11 +52,42 @@ urlpatterns = [
     path('create-mood-entry-ajax', add_mood_entry_ajax, name='add_mood_entry_ajax'),
 ]
 ```
-
+#### 2. Displaying Mood Entry Data with fetch() API
+First, I remove these lines in main.html.
+```
+product_entries = ProductEntry.objects.filter(user=request.user)
+...
+'product_entries': product_entries,
+...
+    {% if not product_entries %}
+        <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+            <img src="{% static 'image/sedih-banget.png' %}" alt="Sad face" class="w-32 h-32 mb-4"/>
+            <p class="text-center text-gray-600 mt-4">No mood data on the mental health tracker yet</p>
+        </div>
+    {% else %}
+        <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full">
+            {% for product_entry in product_entries %}
+                {% include 'card_mood.html' with mood_entry=mood_entry %}
+            {% endfor %}
+        </div>
+    {% endif %}
+```
+I replace the last block of code which I removed with this: 
+```
+<div id="product_entry_cards"></div>
+```
+Then, I change the first line of the show_xml and show_json functions into this: 
 ```
 data = Product.objects.filter(user=request.user)
 ```
-  
+I also add a script block before {% endblock content %} in main.html.
+```
+<script>
+  async function getMoodEntries(){
+      return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+  }
+</script>
+```
 </details>
 <details>
   <summary>WEEK 4</summary>
