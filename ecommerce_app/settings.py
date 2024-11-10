@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&ft&*9wbpz=-2fe(z^go^f7jy*2kg*c^h1ot^8nm88lgl6%gm%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-PRODUCTION = os.getenv("PRODUCTION", False)
-DEBUG = not PRODUCTION
+PRODUCTION = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "pbp.cs.ui.ac.id", "flori-andrea-ecommerceapp.pbp.cs.ui.ac.id",
                  "flori-andrea-upcycleshop.pbp.cs.ui.ac.id"]
