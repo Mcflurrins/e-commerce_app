@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&ft&*9wbpz=-2fe(z^go^f7jy*2kg*c^h1ot^8nm88lgl6%gm%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-PRODUCTION = True
-DEBUG = False
+PRODUCTION = os.getenv("PRODUCTION", False)
+DEBUG = not PRODUCTION
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "pbp.cs.ui.ac.id", "flori-andrea-ecommerceapp.pbp.cs.ui.ac.id",
                  "flori-andrea-upcycleshop.pbp.cs.ui.ac.id"]
@@ -132,3 +132,20 @@ else:
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+import logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
