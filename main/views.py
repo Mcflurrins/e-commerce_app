@@ -25,7 +25,7 @@ def show_main(request):
     return render(request, "main.html", context)
 
 def create_product_entry(request):
-    form = ProductForm(request.POST or None)
+    form = ProductForm(request.POST or None) 
 
     if form.is_valid() and request.method == "POST":
         product_entry = form.save(commit=False)
@@ -37,42 +37,42 @@ def create_product_entry(request):
     return render(request, "create_product_entry.html", context)
 
 def show_xml(request):
-    data = Product.objects.filter(user=request.user)
-    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+    data = Product.objects.filter(user=request.user) #get the products where the user attribute is equal to the current user
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml") #convert data to xml
 
 def show_json(request):
     data = Product.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_xml_by_id(request, id):
-    data = Product.objects.filter(pk=id)
+    data = Product.objects.filter(pk=id) #get the products by their id
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
-def show_json_by_id(request, id):
+def show_json_by_id(request, id): 
     data = Product.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-def register(request):
-    form = UserCreationForm()
+def register(request): 
+    form = UserCreationForm() #define type of form 
 
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
+    if request.method == "POST": 
+        form = UserCreationForm(request.POST) #request.POST contains the form data
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Your account has been successfully created!')
-            return redirect('main:login')
-    context = {'form':form}
+            form.save() #save into database if the form is valid
+            messages.success(request, 'Your account has been successfully created!')  #this message will be passed into login.html
+            return redirect('main:login') #redirect to the login function
+    context = {'form':form} #else reload the page with an empty form 
     return render(request, 'register.html', context)
 
 def login_user(request):
    if request.method == 'POST':
-      form = AuthenticationForm(data=request.POST)
+      form = AuthenticationForm(data=request.POST) #take the form data
 
       if form.is_valid():
-        user = form.get_user()
-        login(request, user)
-        response = HttpResponseRedirect(reverse("main:show_main"))
-        response.set_cookie('last_login', str(datetime.datetime.now()))
+        user = form.get_user() #get the user in the form data 
+        login(request, user) #login the user 
+        response = HttpResponseRedirect(reverse("main:show_main")) #direct the user to the main page
+        response.set_cookie('last_login', str(datetime.datetime.now())) #set a last login cookie
         return response
       else:
         messages.error(request, "Invalid username or password. Please try again.")
@@ -80,7 +80,7 @@ def login_user(request):
    else:
       form = AuthenticationForm(request)
    context = {'form': form}
-   return render(request, 'login.html', context)
+   return render(request, 'login.html', context) #else reload the page with an empty form 
 
 def logout_user(request):
     logout(request)
