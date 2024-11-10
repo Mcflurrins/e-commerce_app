@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-&ft&*9wbpz=-2fe(z^go^f7jy*2kg*c^h1ot^8nm88lgl6%gm%
 PRODUCTION = os.getenv("PRODUCTION", False)
 DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "http://pbp.cs.ui.ac.id/flori.andrea/ecommerceapp", "https://flori-andrea-ecommerceapp.pbp.cs.ui.ac.id", "flori-andrea-ecommerceapp.pbp.cs.ui.ac.id",
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "pbp.cs.ui.ac.id", "flori-andrea-ecommerceapp.pbp.cs.ui.ac.id",
                  "flori-andrea-upcycleshop.pbp.cs.ui.ac.id"]
 
 
