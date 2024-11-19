@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse   # Add import redirect at this line
+from django.shortcuts import render, redirect  # Add import redirect at this line
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from main.forms import ProductForm
@@ -8,10 +8,29 @@ from django.core import serializers
 from django.utils.html import strip_tags
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
-from django.urls import reverse
+import json
+from django.http import JsonResponse
+
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        new_product = Product.objects.create(
+            user=request.user,
+            name=data["name"],
+            price=int(data["price"]),
+            description=data["description"]
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
 
 @login_required(login_url='/login')
 def show_main(request):
@@ -127,3 +146,4 @@ def add_product_entry_ajax(request):
         return HttpResponse(b"CREATED", status=201)
     else:
         return HttpResponse('Missing fields', status=400)
+    
